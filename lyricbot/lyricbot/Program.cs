@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 
 namespace lyricbot
@@ -16,10 +18,12 @@ namespace lyricbot
     {
         static void Main(string[] args)
         {
+
             while (true)
             {
 
                 try {
+                    Maximize();
                     Console.WriteLine("Name a song, or say quit to exit.");
                     string song = Console.ReadLine();
                     if (song == "quit" || song == "Quit")
@@ -54,6 +58,14 @@ namespace lyricbot
                     Console.WriteLine("Error, please try again");
                 }
                 }
-        } 
+        }
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(System.IntPtr hWnd, int cmdShow);
+
+        private static void Maximize()
+        {
+            Process p = Process.GetCurrentProcess();
+            ShowWindow(p.MainWindowHandle, 3); //SW_MAXIMIZE = 3
+        }
     }
 }
