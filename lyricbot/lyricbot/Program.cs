@@ -30,13 +30,13 @@ namespace lyricbot
                     {
                         Environment.Exit(0);
                     }
-                    string converted = song.Replace(" ", "+");
-                    string webdata = new WebClient().DownloadString(new Uri("https://genius.com/search?q=" + converted));
+                    string converted = song.Replace(" ", "+"); //replaces the spaces with +'s
+                    string webdata = new WebClient().DownloadString(new Uri("https://genius.com/search?q=" + converted)); //searches for the song, chooses the first option.
                     int pos = webdata.IndexOf("song_link");
                     var lineNumber = webdata.Substring(0, pos).Count(c => c == '\n') + 1;
                     var array = webdata.Split('\n');
                     string link = array[lineNumber - 1];
-                    string[] splitLink = link.Split();
+                    string[] splitLink = link.Split();              //not sure what I did here
                     Int32 startIdx = link.IndexOf("https://");
                     Int32 endIdx = link.IndexOf("\"", startIdx);
                     string strippedLink = link.Substring(startIdx, endIdx - startIdx); //strips the link to a regular one. uses the variable link
@@ -49,7 +49,7 @@ namespace lyricbot
                     Int32 EndIndex = result.IndexOf("<!--/sse-->");
                     string finalLyrics = result.Substring(startIndex, EndIndex - startIndex);
                     finalLyrics = finalLyrics.Replace("<!--sse-->", " ");
-                    finalLyrics = finalLyrics.Replace("â?T", "");
+                    finalLyrics = finalLyrics.Replace("â?T", "'");
                     Console.WriteLine(finalLyrics);
 
                 }
